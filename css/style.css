@@ -1,0 +1,223 @@
+/* ============ 1. VARIABLES ============ */
+:root {
+  --purple: #6b46d9;
+  --purple-dark: #5333b8;
+  --lavender: #eeeafc;
+  --lavender-deep: #d9d0f7;
+  --ink: #14121f;
+  --muted: #5d5a70;
+  --white: #ffffff;
+}
+
+/* ============ 2. RESET AND BASICS ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: "DM Sans", Arial, sans-serif; color: var(--ink); }
+
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+
+/* A reusable centred wrapper that stops content getting too wide */
+.container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+
+a:focus-visible, .hamburger:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 3px;
+}
+
+/* ============ 3. TOP INFO BAR ============ */
+.topbar {
+  display: none;            /* hidden on phones: too crowded */
+  background: var(--white);
+  border-bottom: 1px solid #ece9f6;
+  font-size: 0.8rem;
+}
+.topbar-inner { display: flex; justify-content: space-between; padding-top: 10px; padding-bottom: 10px; }
+.topbar i { color: var(--purple); margin-right: 6px; }
+.topbar span:nth-child(n+3) { display: none; }  /* tablets show only 2 items */
+
+/* ============ 4. NAVBAR (mobile first) ============ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  box-shadow: 0 1px 0 #ece9f6;
+}
+
+.nav-inner {
+  display: flex;
+  flex-wrap: wrap;           
+  align-items: center;
+  min-height: 70px;
+}
+
+.logo { display: flex; flex-direction: column; order: 1; }
+.logo strong { font-size: 1.5rem; color: var(--purple); line-height: 1; }
+.logo small { font-size: 0.7rem; color: var(--muted); }
+
+.nav-actions { display: flex; gap: 18px; order: 2; margin-left: auto; font-size: 1.15rem; }
+.nav-actions a:hover { color: var(--purple); }
+
+.hamburger { order: 3; margin-left: 18px; font-size: 1.4rem; cursor: pointer; }
+.menu-toggle { display: none; }
+
+.has-badge { position: relative; }
+.badge {
+  position: absolute; top: -8px; right: -10px;
+  min-width: 17px; height: 17px; padding: 0 4px;
+  border-radius: 9px;
+  background: var(--purple); color: var(--white);
+  font-size: 0.65rem; font-weight: 700; line-height: 17px; text-align: center;
+}
+
+/* Mobile menu: collapsed until the checkbox is ticked */
+.nav-menu {
+  order: 4;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.menu-toggle:checked ~ .nav-menu { max-height: 600px; }
+
+.nav-links a { display: block; padding: 13px 0; font-weight: 500; border-bottom: 1px solid #f0eef8; }
+.nav-links a:hover, .nav-links a.active { color: var(--purple); }
+.nav-links i { font-size: 0.65rem; margin-left: 4px; }
+
+.dropdown a { padding-left: 18px; font-weight: 400; color: var(--muted); }
+
+/* ============ 5. HERO SLIDER ============ */
+.hero {
+  display: grid;             /* all slides share ONE grid cell, so they overlap */
+  background: var(--lavender);
+  overflow: hidden;
+}
+
+.slide {
+  grid-area: 1 / 1;          /* row 1, column 1: every slide goes here */
+  opacity: 0;
+  visibility: hidden;        /* hidden slides can't be clicked */
+  animation: slide 15s infinite;
+}
+.slide-1 { animation-delay: 0s; }
+.slide-2 { animation-delay: 5s; }
+.slide-3 { animation-delay: 10s; }
+
+@keyframes slide {
+  0%   { opacity: 0; visibility: hidden; }
+  5%   { opacity: 1; visibility: visible; }
+  30%  { opacity: 1; visibility: visible; }
+  35%  { opacity: 0; visibility: hidden; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+.slide-inner {
+  display: grid;
+  gap: 32px;
+  padding-top: 48px;
+  padding-bottom: 56px;
+  align-items: center;
+}
+
+.tagline { color: var(--purple); font-weight: 700; margin-bottom: 12px; }
+.slide-text h1 { font-size: 2.6rem; line-height: 1.05; margin-bottom: 16px; }
+.desc { color: var(--muted); line-height: 1.6; max-width: 420px; margin-bottom: 26px; }
+
+.btn-group { display: flex; flex-wrap: wrap; gap: 14px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; border-radius: 6px;
+  font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+  transition: transform 0.2s, background 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--purple); color: var(--white); }
+.btn-primary:hover { background: var(--purple-dark); }
+.btn-outline { border: 1px solid #c9c2e6; background: var(--white); }
+.btn-dark { background: var(--ink); color: var(--white); margin-top: 16px; }
+
+/* Product image sitting on a "platform" */
+.slide-visual { position: relative; text-align: center; }
+.slide-visual > img {
+  position: relative; z-index: 1;
+  width: auto; max-height: 340px; margin: 0 auto 28px;
+}
+.slide-visual::before {      /* the lilac platform under the product */
+  content: "";
+  position: absolute; left: 50%; bottom: 120px;   /* sits under the image */
+  transform: translateX(-50%);
+  width: 70%; height: 36px; border-radius: 50%;
+  background: var(--lavender-deep);
+}
+
+/* Floating product card */
+.product-card {
+  position: relative; z-index: 2;
+  max-width: 280px; margin: 0 auto;
+  padding: 22px; border-radius: 16px;
+  background: var(--white); text-align: left;
+  box-shadow: 0 12px 30px rgba(107, 70, 217, 0.15);
+}
+.pill {
+  display: inline-block; margin-bottom: 12px; padding: 4px 10px; border-radius: 20px;
+  background: var(--lavender); color: var(--purple); font-size: 0.7rem; font-weight: 700;
+}
+.product-card h2 { font-size: 1.3rem; margin-bottom: 6px; }
+.product-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.4; margin-bottom: 16px; }
+.product-card small { display: block; color: var(--muted); font-size: 0.7rem; }
+.price { font-size: 1.7rem; color: var(--purple); }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { animation: none; }
+  .slide-1 { opacity: 1; visibility: visible; }
+}
+
+/* ============ 6. TABLET (768px+) ============ */
+@media (min-width: 768px) {
+  .topbar { display: block; }
+  .slide-text h1 { font-size: 3.4rem; }
+}
+
+/* ============ 7. DESKTOP (992px+) ============ */
+@media (min-width: 992px) {
+  .topbar span:nth-child(n+3) { display: inline; }   /* show all 4 items */
+
+  .hamburger { display: none; }
+
+  .nav-inner { flex-wrap: nowrap; }
+
+  /* Menu moves between the logo and the icons */
+  .nav-menu {
+    order: 2; flex: 1; width: auto;
+    max-height: none; overflow: visible;
+  }
+  .nav-actions { order: 3; margin-left: 0; font-size: 1.2rem; }
+
+  .nav-links { display: flex; justify-content: center; gap: 30px; }
+  .nav-links a { padding: 24px 0; border-bottom: 2px solid transparent; font-size: 0.92rem; }
+  .nav-links a.active { border-bottom-color: var(--purple); }
+
+  /* Dropdown appears on hover or keyboard focus */
+  .has-dropdown { position: relative; }
+  .dropdown {
+    display: none; position: absolute; top: 100%; left: 0; min-width: 170px;
+    background: var(--white); border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(20, 18, 31, 0.12);
+  }
+  .has-dropdown:hover .dropdown,
+  .has-dropdown:focus-within .dropdown { display: block; }
+  .dropdown a { padding: 11px 18px; border-bottom: none; }
+
+  /* Hero: text left, product right */
+  .slide-inner { grid-template-columns: 1fr 1.2fr; min-height: 540px; }
+  .slide-text h1 { font-size: 4rem; }
+  .slide-visual > img { max-height: 420px; margin-bottom: 0; }
+  .slide-visual::before { bottom: 0; width: 55%; }
+
+  .product-card {
+    position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%); margin: 0; width: 260px;
+  }
+}
